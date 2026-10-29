@@ -1,476 +1,264 @@
 /* =====================================================================
-   Hero: mapa ze strefami dojścia
-   Desktop: mapa na całą szerokość pod tekstem, karta oferty po prawej.
-   Telefon: tekst, pod nim mapa, pod nią karta.
+   Hero: wyśrodkowany tekst i rysunek techniczny ulicy
+   Rysunek nie zależy od miasta ani od ofert: pokazuje cztery typy
+   nieruchomości i to, co sprawdzamy przy analizie lokalizacji.
    ===================================================================== */
 .hero {
   position: relative;
-  isolation: isolate;
-  min-height: clamp(40rem, calc(100svh - var(--header-h)), 58rem);
+  padding-top: clamp(2rem, 0.4rem + 3vw, 3.5rem);
   overflow: hidden;
+  text-align: center;
 }
 
-/* --- Mapa ----------------------------------------------------------------- */
-.hero__map {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
-.map-viewport {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  /* czytelność tekstu: mapa wygaszona pod lewą kolumną */
-  -webkit-mask-image: linear-gradient(90deg, rgb(0 0 0 / 0.2) 0%, rgb(0 0 0 / 0.3) 30%, #000 52%);
-  mask-image: linear-gradient(90deg, rgb(0 0 0 / 0.2) 0%, rgb(0 0 0 / 0.3) 30%, #000 52%);
-}
-
-.map-stage {
-  position: absolute;
-  left: 0;
-  top: 0;
-  transform-origin: 0 0;
-  /* arkusz mapy kończy się miękko, zamiast uciętej krawędzi */
-  -webkit-mask-image:
-    linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%),
-    linear-gradient(180deg, transparent 0, #000 9%, #000 91%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%),
-    linear-gradient(180deg, transparent 0, #000 9%, #000 91%, transparent 100%);
-  mask-composite: intersect;
-  transition: opacity 1s var(--ease-out);
-}
-.map-stage.is-panning {
-  will-change: transform;
-}
-.map-stage.is-hidden {
-  opacity: 0;
-}
-
-.map-layer {
-  position: absolute;
-  left: 0;
-  top: 0;
-  overflow: visible;
-  pointer-events: none;
-}
-
-/* warstwy bazowe */
-.map-park { fill: var(--map-green); }
-.map-planty { fill: var(--map-planty); }
-.map-bulwar { fill: none; stroke: var(--map-green); stroke-linecap: round; stroke-linejoin: round; }
-.map-river-edge { fill: none; stroke: var(--map-water-edge); stroke-linecap: round; stroke-linejoin: round; }
-.map-river { fill: none; stroke: var(--map-water); stroke-linecap: round; stroke-linejoin: round; }
-.map-river-draw { transition: stroke-dashoffset 1.7s var(--ease-in-out); }
-
-.road {
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
-}
-.road--minor { stroke: var(--map-road-minor); stroke-width: 0.7px; }
-.road--mid { stroke: var(--map-road-mid); stroke-width: 1px; }
-.road--major { stroke: var(--map-road-major); stroke-width: 1.45px; }
-.map-tram {
-  fill: none;
-  stroke: var(--map-tram);
-  stroke-width: 1.1px;
-  stroke-dasharray: 6 3;
-  vector-effect: non-scaling-stroke;
-}
-
-.map-label {
-  font-family: var(--font-sans);
-  font-stretch: 84%;
-  font-weight: 540;
-  letter-spacing: 0.06em;
-  fill: var(--ink-64);
-  paint-order: stroke;
-  stroke: var(--paper);
-  stroke-linejoin: round;
-}
-.map-label--park {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  fill: var(--patina-deep);
-}
-.map-label--landmark {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  fill: var(--ink-80);
-}
-.map-river-label {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  fill: #46657c;
-}
-
-/* strefy dojścia */
-.zone {
-  vector-effect: non-scaling-stroke;
-  stroke: var(--zone-edge);
-  stroke-linejoin: round;
-}
-.zone--5 { fill: var(--zone-5); stroke-width: 1.2px; }
-.zone--10 { fill: var(--zone-10); stroke-width: 1px; stroke-dasharray: 5 3; }
-.zone--15 { fill: var(--zone-15); stroke-width: 1px; stroke-dasharray: 1.5 3; }
-
-/* przystanki w zasięgu */
-.stop {
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  vector-effect: non-scaling-stroke;
-}
-.stop.is-visible { opacity: 1; }
-.stop--tram { fill: var(--paper-raised); stroke: var(--ink); stroke-width: 1.3px; }
-.stop--bus { fill: var(--ink-64); stroke: none; }
-
-/* pinezki ofert (przyciski HTML na mapie) */
-.map-pins {
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-.map-pin {
-  position: absolute;
-  width: 30px;
-  height: 40px;
-  margin: -39px 0 0 -15px;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  transform-origin: 50% 100%;
-  transform: scale(0.74);
-  opacity: 0;
-  transition: transform 0.35s var(--ease-out), opacity 0.35s ease;
-}
-.map-pin.is-shown { opacity: 1; }
-.map-pin:hover { transform: scale(0.84); }
-.map-pin[aria-pressed="true"] { transform: scale(1); z-index: 2; }
-.map-pin svg { width: 100%; height: 100%; overflow: visible; }
-.map-pin .pin-body {
-  fill: var(--paper-raised);
-  stroke: var(--ink);
-  stroke-width: 1.5;
-  transition: fill 0.25s ease;
-}
-.map-pin .pin-dot { fill: var(--ink-64); transition: fill 0.25s ease; }
-.map-pin[aria-pressed="true"] .pin-body { fill: var(--gold); }
-.map-pin[aria-pressed="true"] .pin-dot { fill: var(--ink); }
-.map-pin:focus-visible {
-  box-shadow: none;
-  outline: 2px solid var(--ink);
-  outline-offset: 3px;
-  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
-}
-.map-pin.is-dropping { animation: pin-drop 0.6s var(--ease-out) both; }
-@keyframes pin-drop {
-  0% { transform: translateY(-18px) scale(1); opacity: 0; }
-  60% { opacity: 1; }
-  100% { transform: translateY(0) scale(1); opacity: 1; }
-}
-
-/* --- Treść ----------------------------------------------------------------- */
-.hero__inner {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  max-width: var(--content-max);
-  min-height: inherit;
+/* --- Tekst ------------------------------------------------------------------ */
+.hero__text {
+  max-width: 64rem;
   margin: 0 auto;
-  padding: var(--space-7) var(--gutter) calc(var(--space-8) + var(--space-4));
-  pointer-events: none;
+  padding: 0 var(--gutter);
+  animation: hero-in 0.9s 0.1s var(--ease-out) both;
 }
-
-.hero__content {
-  max-width: 38.5rem;
-  pointer-events: auto;
+@keyframes hero-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
 }
 
 .hero__title {
+  max-width: 9.2em; /* zawsze dwie linie: „Dobra lokalizacja / nie jest przypadkiem.” */
+  margin-inline: auto;
   font-family: var(--font-display);
   font-size: var(--text-display);
-  font-weight: 560;
+  font-stretch: var(--stretch-display);
+  font-weight: 800;
   line-height: var(--leading-tight);
-  letter-spacing: -0.012em;
+  letter-spacing: -0.01em;
   text-wrap: balance;
-  font-variant-ligatures: common-ligatures;
 }
 
 .hero__lead {
-  max-width: 31rem;
-  margin-top: var(--space-5);
+  max-width: 47rem;
+  margin: var(--space-5) auto 0;
   font-size: var(--text-md);
   line-height: var(--leading-body);
   color: var(--ink-80);
-  text-wrap: pretty;
+  text-wrap: balance;
 }
 
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: var(--space-3);
   margin-top: var(--space-6);
 }
 
 .hero__note {
-  margin-top: var(--space-5);
+  margin-top: var(--space-4);
   font-size: var(--text-sm);
   color: var(--ink-64);
-}
-
-/* intro: treść pojawia się razem z mapą (czysty CSS, działa też bez JS) */
-.hero__content {
-  animation: hero-content-in 0.9s 0.15s var(--ease-out) both;
-}
-@keyframes hero-content-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: none; }
-}
-
-/* --- Karta oferty: metryczka lokalizacji ---------------------------------- */
-.hero-card {
-  position: absolute;
-  z-index: 3;
-  right: max(var(--gutter), calc((100% - var(--content-max)) / 2 + var(--gutter)));
-  bottom: calc(var(--space-7) + var(--space-2));
-  width: 22.25rem;
-  padding: 1.1rem 1.25rem 1rem;
-  background: var(--paper-raised);
-  border: 1px solid var(--ink-16);
-  border-radius: var(--radius-md);
-  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
-}
-.hero.is-intro .hero-card {
-  opacity: 0;
-  transform: translateY(12px);
-}
-
-.hero-card__body {
-  transition: opacity 0.22s ease, transform 0.22s ease;
-}
-.hero-card.is-swapping .hero-card__body {
-  opacity: 0;
-  transform: translateY(4px);
-}
-
-.hero-card__top {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-3);
-  font-size: var(--text-xs);
-  color: var(--ink-64);
-}
-.hero-card__district {
-  color: var(--ink);
-  font-weight: 600;
-}
-
-.hero-card__title {
-  margin-top: 0.35rem;
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 560;
-  line-height: 1.12;
   text-wrap: balance;
 }
-.hero-card__meta {
-  margin-top: 0.35rem;
-  font-size: var(--text-sm);
-  line-height: var(--leading-snug);
-  color: var(--ink-64);
-}
-.hero-card__price {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.15rem 0.6rem;
-  margin-top: 0.65rem;
-  font-size: 1.06rem;
-  font-weight: 620;
-  font-variant-numeric: tabular-nums lining-nums;
-}
-.hero-card__price-note {
-  font-size: var(--text-sm);
-  font-weight: 450;
-  color: var(--ink-64);
+
+/* na szerszych ekranach każde zdanie leadu w osobnej linii */
+@media (min-width: 900px) {
+  .hero__lead span { display: block; }
 }
 
-.hero-card__analysis {
-  margin-top: 0.9rem;
-  padding-top: 0.8rem;
-  border-top: 1px solid var(--ink-16);
-}
-.zone-legend {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.35rem 0.85rem;
-  font-size: var(--text-xs);
-  color: var(--ink-64);
-}
-.zone-legend__title {
-  margin-right: auto;
-  color: var(--ink);
-  font-weight: 600;
-}
-.zone-legend__item {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-variant-numeric: tabular-nums;
-}
-.zone-swatch {
-  width: 0.95rem;
-  height: 0.65rem;
-  border-radius: 1px;
-}
-.zone-swatch--5 { background: var(--zone-5); box-shadow: inset 0 0 0 1.2px var(--zone-edge); }
-.zone-swatch--10 { background: var(--zone-10); border: 1px dashed var(--zone-edge); }
-.zone-swatch--15 { background: var(--zone-15); border: 1px dotted var(--zone-edge); }
-
-.hero-card__how {
-  margin-top: 0.4rem;
-  font-size: var(--text-xs);
-  line-height: 1.45;
-  color: var(--ink-64);
+/* --- Rysunek --------------------------------------------------------------- */
+.hero__drawing {
+  margin-top: clamp(1.25rem, 0.2rem + 2.2vw, 2.5rem);
 }
 
-.hero-card__stats {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.3rem 0.9rem;
-  margin: 0.7rem 0 0;
-  font-size: var(--text-sm);
-  line-height: var(--leading-snug);
-}
-.hero-card__stats dt { color: var(--ink-64); }
-.hero-card__stats dd {
-  margin: 0;
-  font-weight: 560;
-  text-align: right;
-  text-wrap: balance;
-  font-variant-numeric: tabular-nums lining-nums;
+.drawing-scroll {
+  overflow: hidden;
 }
 
-.hero-card__foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-  margin-top: 0.9rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--ink-16);
+.drawing-inner {
+  position: relative;
+  width: min(100%, 120rem);
+  margin: 0 auto;
 }
-.hero-card__link {
-  font-size: var(--text-sm);
-  font-weight: 620;
-  color: var(--patina-deep);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.22em;
-}
-.hero-card__link:hover { color: var(--ink); }
 
-.pager {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  font-size: var(--text-xs);
-  color: var(--ink-64);
-  font-variant-numeric: tabular-nums;
+.drawing {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
 }
-.pager__btn {
-  display: inline-grid;
-  place-items: center;
-  width: 2rem;
-  height: 2rem;
-  padding: 0;
-  border: 1px solid var(--ink-16);
-  border-radius: var(--radius-sm);
-  background: transparent;
+
+/* grubości kresek: jak na rysunku budowlanym, od obrysu do detalu */
+.drawing .lw0 { stroke-width: 0.55; }
+.drawing .lw1 { stroke-width: 0.9; }
+.drawing .lw2 { stroke-width: 1.3; }
+.drawing .lw3 { stroke-width: 1.9; }
+
+.drawing .o,
+.drawing .d {
+  fill: none;
+  stroke: var(--ink);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.drawing .fill { fill: var(--paper); }
+.drawing .glass { fill: var(--glass); }
+.drawing .t60 { stroke-opacity: 0.55; }
+.drawing .t45 { stroke-opacity: 0.4; }
+.drawing .dash { fill: rgb(242 201 76 / 0.08); stroke: var(--ink); stroke-width: 1; stroke-dasharray: 6 4; }
+.drawing .dash-fine { fill: none; stroke: var(--ink); stroke-width: 0.6; stroke-dasharray: 2.5 4; stroke-opacity: 0.6; }
+.drawing .flag { fill: var(--signal); }
+.drawing .person circle { fill: var(--paper); }
+.drawing .hatch-line { stroke: var(--ink); stroke-opacity: 0.34; stroke-width: 0.8; }
+.drawing .hatch-fill { fill: url(#hatch); stroke: none; }
+
+.drawing .lead { fill: none; stroke: var(--ink-64); stroke-width: 0.75; }
+.drawing .tick { fill: none; stroke: var(--ink); stroke-width: 1.15; }
+.drawing .dot { fill: var(--ink); }
+.drawing .ct {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-stretch: var(--stretch-label);
+  font-weight: 580;
+  fill: var(--ink-80);
+}
+.drawing .ct--sub { font-weight: 450; fill: var(--ink-64); }
+.drawing .sign-text {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 800;
+  fill: var(--ink);
+  stroke: none;
+}
+
+/* rysowanie przy wejściu: jeden zaplanowany moment */
+.drawing .o {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: drawing-line 1.15s var(--ease-in-out) forwards;
+  animation-delay: calc(0.55s + var(--i, 0) * 0.2s);
+}
+.drawing .ground-line {
+  animation-duration: 1.3s;
+  animation-delay: 0.25s;
+}
+.drawing .d {
+  opacity: 0;
+  animation: drawing-appear 0.7s ease forwards;
+  animation-delay: calc(1.15s + var(--i, 0) * 0.2s);
+}
+.drawing .c {
+  opacity: 0;
+  animation: drawing-appear 0.6s ease forwards;
+  animation-delay: calc(1.95s + var(--i, 0) * 0.15s);
+}
+@keyframes drawing-line {
+  from { stroke-dashoffset: 1; fill-opacity: 0; }
+  60% { fill-opacity: 0; }
+  to { stroke-dashoffset: 0; fill-opacity: 1; }
+}
+@keyframes drawing-appear {
+  to { opacity: 1; }
+}
+
+/* zakreślacz: wybrany budynek zostaje pokolorowany, reszta przygasa */
+.drawing .m { transition: opacity 0.25s ease; }
+.drawing .fill,
+.drawing .dash { transition: fill 0.25s ease; }
+.drawing .hit {
+  fill: transparent;
   cursor: pointer;
-  transition: border-color 0.18s ease, background-color 0.18s ease;
 }
-.pager__btn:hover { border-color: var(--ink-40); background: var(--ink-08); }
-.pager__btn svg { width: 0.9rem; height: 0.9rem; }
-.pager__count { min-width: 2.6rem; text-align: center; }
+[data-active="a"] .drawing .m[data-m="a"] .fill,
+[data-active="b"] .drawing .m[data-m="b"] .fill,
+[data-active="c"] .drawing .m[data-m="c"] .fill { fill: #f3e3a8; }
+[data-active="d"] .drawing .dash { fill: rgb(242 201 76 / 0.45); }
 
-.hero-attrib {
+[data-active="a"] .drawing .m:not([data-m="a"]),
+[data-active="b"] .drawing .m:not([data-m="b"]),
+[data-active="c"] .drawing .m:not([data-m="c"]),
+[data-active="d"] .drawing .m:not([data-m="d"]) { opacity: 0.4; }
+
+/* --- Podpisy pod rysunkiem (linki do ofert danego typu) -------------------- */
+.drawing-labels {
+  position: relative;
+  height: 3.75rem;
+  border-top: 1px solid var(--ink-16);
+}
+.drawing-labels li {
   position: absolute;
-  z-index: 3;
-  left: max(var(--gutter), calc((100% - var(--content-max)) / 2 + var(--gutter)));
-  bottom: var(--space-4);
-  max-width: 40rem;
-  font-size: 0.7rem;
-  line-height: 1.4;
-  color: var(--ink-64);
+  top: 0.9rem;
+  left: var(--x);
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.drawing-labels a {
+  display: inline-block;
+  padding: 0.2rem 0.1rem;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-stretch: var(--stretch-label);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.drawing-labels a:hover,
+.drawing-labels a.is-active {
+  border-bottom-color: var(--signal);
 }
 
-/* --- Węższe ekrany: układ jeden pod drugim -------------------------------- */
-@media (max-width: 1300px) {
-  .hero__content { max-width: 32rem; }
-  .hero-card { width: 20rem; }
+/* --- Tablet i małe okna: większe opisy, żeby dało się je przeczytać ------- */
+@media (min-width: 761px) and (max-width: 1180px) {
+  .drawing .ct { font-size: 17px; }
+  .drawing .sign-text { font-size: 16px; }
 }
 
-@media (max-width: 1180px) {
-  .hero {
-    display: grid;
-    grid-template-areas: "content" "map" "card" "attrib";
-    min-height: 0;
-    padding-bottom: var(--space-5);
+/* --- Telefon: rysunek jako panorama do przesuwania palcem ------------------ */
+@media (max-width: 760px) {
+  .hero__actions .btn { flex: 1 1 13rem; }
+  .drawing-scroll {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
   }
-  .hero__inner {
-    grid-area: content;
-    width: 100%;
-    min-height: 0;
-    margin: 0;
-    padding: var(--space-6) var(--gutter) var(--space-5);
+  .drawing-scroll::-webkit-scrollbar { display: none; }
+  .drawing-inner {
+    width: 1180px;
+    max-width: none;
   }
-  .hero__content { max-width: 36rem; }
-  .hero__map {
-    grid-area: map;
-    position: relative;
-    inset: auto;
-    height: clamp(22rem, 58vh, 30rem);
-    margin: 0 var(--gutter);
-    border: 1px solid var(--ink-16);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-  }
-  .map-viewport {
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-  .hero-card {
-    grid-area: card;
-    position: relative;
-    right: auto;
-    bottom: auto;
-    width: auto;
-    max-width: 34rem;
-    margin: -2.75rem calc(var(--gutter) + 0.75rem) 0;
-  }
-  .hero-attrib {
-    grid-area: attrib;
-    position: static;
-    margin: var(--space-4) var(--gutter) 0;
-  }
+  .drawing .ct { font-size: 16px; }
+  .drawing-labels li { scroll-snap-align: center; }
+  .drawing-labels a { font-size: 1.05rem; }
+  .drawing-dots { display: flex; }
 }
 
-@media (max-width: 480px) {
-  .hero__actions .btn { flex: 1 1 auto; }
-  .hero-card { margin-inline: var(--gutter); }
+/* kropki pod panoramą: ile typów i który jest teraz pokazany (tylko telefon) */
+.drawing-dots {
+  display: none;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0.15rem 0 0;
+}
+.drawing-dots span {
+  width: 0.45rem;
+  height: 0.45rem;
+  border: 1px solid var(--ink-40);
+  border-radius: 50%;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.drawing-dots span.is-active {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__text { animation: none; }
+  .drawing .o,
+  .drawing .d,
+  .drawing .c {
+    animation: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
 }
