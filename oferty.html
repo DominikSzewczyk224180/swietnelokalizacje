@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Oferty nieruchomości komercyjnych | Świetne Lokalizacje</title>
+  <meta name="description" content="Lokale usługowe i handlowe, biura, magazyny i grunty inwestycyjne. Filtry po typie, transakcji, miejscowości, powierzchni i cenie.">
+  <meta name="theme-color" content="#e6e7e3">
+  <link rel="preload" href="fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/sections.css">
+  <link rel="stylesheet" href="css/offers.css">
+  <script src="js/offers-data.js" defer></script>
+  <script src="js/offers-core.js" defer></script>
+  <script src="js/header.js" defer></script>
+  <script src="js/offers-list.js" defer></script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><pattern id="hatch-sm" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" style="stroke:#1f2429;stroke-opacity:.32;stroke-width:.7"/></pattern></defs></svg>
+  <a class="skip-link" href="#main">Przejdź do treści</a>
+
+  <header class="site-header" data-header>
+    <div class="site-header__inner">
+      <!-- Znak i nazwa tymczasowe: do podmiany na logo klienta -->
+      <a class="brand" href="index.html" aria-label="Świetne Lokalizacje, strona główna">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="14.75" fill="none" stroke="currentColor" stroke-opacity="0.22" stroke-width="1.2" stroke-dasharray="1.5 2.5"/>
+          <circle cx="16" cy="16" r="9.75" fill="none" stroke="currentColor" stroke-opacity="0.45" stroke-width="1.2" stroke-dasharray="4 2.2"/>
+          <circle cx="16" cy="16" r="4.6" fill="#f2c94c" stroke="currentColor" stroke-width="1.3"/>
+        </svg>
+        <span class="brand__text">
+          <span class="brand__name">Świetne Lokalizacje</span>
+          <span class="brand__tag">Nieruchomości komercyjne</span>
+        </span>
+      </a>
+
+      <nav class="nav" aria-label="Główna nawigacja">
+        <ul class="nav__list">
+          <li><a href="oferty.html" aria-current="page">Oferty</a></li>
+          <li><a href="index.html#uslugi">Usługi</a></li>
+          <li><a href="index.html#jak-pracujemy">Jak pracujemy</a></li>
+          <li><a href="index.html#dla-wlascicieli">Dla właścicieli</a></li>
+          <li><a href="index.html#o-nas">O nas</a></li>
+          <li><a href="index.html#kontakt">Kontakt</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Numer tymczasowy: do uzupełnienia danymi biura -->
+        <a class="header-phone" href="tel:+48000000000" aria-label="Zadzwoń: +48 000 000 000">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5h3.2l1.6 4.2-2.1 1.4a11.5 11.5 0 0 0 7.2 7.2l1.4-2.1 4.2 1.6V19a1.6 1.6 0 0 1-1.7 1.6A16.6 16.6 0 0 1 3.4 5.2 1.6 1.6 0 0 1 5 3.5Z"/></svg>
+          <span>+48&nbsp;000&nbsp;000&nbsp;000</span>
+        </a>
+        <a class="btn btn--primary btn--sm" href="index.html?cel=szukam#kontakt">Zleć poszukiwanie</a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-nav-toggle>
+          <span class="nav-toggle__bars" aria-hidden="true"></span>
+          <span data-nav-label>Menu</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-menu" id="mobile-menu" hidden>
+      <ul class="mobile-menu__list">
+        <li><a href="oferty.html" aria-current="page">Oferty</a></li>
+        <li><a href="index.html#uslugi">Usługi</a></li>
+        <li><a href="index.html#jak-pracujemy">Jak pracujemy</a></li>
+        <li><a href="index.html#dla-wlascicieli">Dla właścicieli</a></li>
+        <li><a href="index.html#o-nas">O nas</a></li>
+        <li><a href="index.html#kontakt">Kontakt</a></li>
+      </ul>
+      <div class="mobile-menu__actions">
+        <a class="btn btn--primary" href="index.html?cel=szukam#kontakt">Zleć poszukiwanie</a>
+        <a class="header-phone" href="tel:+48000000000">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5h3.2l1.6 4.2-2.1 1.4a11.5 11.5 0 0 0 7.2 7.2l1.4-2.1 4.2 1.6V19a1.6 1.6 0 0 1-1.7 1.6A16.6 16.6 0 0 1 3.4 5.2 1.6 1.6 0 0 1 5 3.5Z"/></svg>
+          <span>+48&nbsp;000&nbsp;000&nbsp;000</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="list-page" data-list>
+    <div class="container">
+      <nav class="crumbs" aria-label="Ścieżka"><a href="index.html">Strona główna</a><span aria-current="page">Oferty</span></nav>
+      <header class="page-head">
+        <h1 class="page-title">Oferty</h1>
+        <p class="page-intro">Lokale, biura, magazyny i&nbsp;grunty, które możemy pokazać publicznie. Część nieruchomości przedstawiamy tylko klientom, dla których szukamy.</p>
+      </header>
+
+      <div class="filters">
+        <div class="offers-tabs" data-f-type role="group" aria-label="Rodzaj nieruchomości"></div>
+        <div class="filters-panel" id="filters-panel" data-f-panel role="region" aria-label="Filtry ofert">
+          <div class="filters-panel__head"><h2>Filtry</h2><button type="button" data-f-close aria-label="Zamknij filtry">×</button></div>
+          <div class="filters-grid">
+            <fieldset class="fcell">
+              <legend>Transakcja</legend>
+              <div class="seg">
+                <label><input type="radio" name="transakcja" value="all"><span>Wszystkie</span></label>
+                <label><input type="radio" name="transakcja" value="najem"><span>Najem</span></label>
+                <label><input type="radio" name="transakcja" value="sprzedaz"><span>Sprzedaż</span></label>
+              </div>
+            </fieldset>
+            <div class="fcell"><label for="f-city">Miejscowość</label><select id="f-city"></select></div>
+            <div class="fcell">
+              <span class="lbl" id="l-area">Powierzchnia (m²)</span>
+              <div class="range">
+                <input id="f-area-min" type="text" inputmode="numeric" placeholder="od" aria-label="Powierzchnia od (m²)">
+                <input id="f-area-max" type="text" inputmode="numeric" placeholder="do" aria-label="Powierzchnia do (m²)">
+              </div>
+            </div>
+            <div class="fcell">
+              <label for="f-price" data-price-label>Cena do</label>
+              <input id="f-price" type="text" inputmode="numeric" placeholder="np. 15 000">
+              <p class="fhint" data-price-hint>Najpierw wybierz najem albo sprzedaż.</p>
+            </div>
+            <div class="fcell"><label for="f-q">Szukaj</label><input id="f-q" type="search" placeholder="np. witryna, Kazimierz, doki"></div>
+          </div>
+          <div class="filters-panel__foot"><button class="btn btn--primary" type="button" data-f-apply>Pokaż oferty</button></div>
+        </div>
+      </div>
+
+      <div class="results-bar">
+        <p class="results-count" data-f-count aria-live="polite"></p>
+        <button class="btn btn--secondary btn--sm filters-toggle" type="button" data-f-toggle aria-expanded="false" aria-controls="filters-panel">Filtry <span data-f-active-count></span></button>
+        <div class="chips" data-f-chips></div>
+        <button class="reset-link" type="button" data-f-reset hidden>Wyczyść filtry</button>
+        <label class="sort"><span>Sortuj</span>
+          <select data-f-sort>
+            <option value="najnowsze">Najnowsze</option>
+            <option value="cena_rosnaco">Cena: od najniższej</option>
+            <option value="cena_malejaco">Cena: od najwyższej</option>
+            <option value="pow_rosnaco">Powierzchnia: od najmniejszej</option>
+            <option value="pow_malejaco">Powierzchnia: od największej</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="offers-grid" data-results></div>
+
+      <aside class="offmarket" aria-labelledby="offmarket-title">
+        <div>
+          <h2 id="offmarket-title">Nie każda dobra lokalizacja trafia do ogłoszeń</h2>
+          <p>Część nieruchomości właściciele sprzedają albo wynajmują dyskretnie. Opisz, czego szukasz, a&nbsp;sprawdzimy także oferty spoza otwartego rynku.</p>
+        </div>
+        <a class="btn btn--primary" href="index.html?cel=szukam#kontakt">Zleć poszukiwanie</a>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-about">
+        <a class="brand" href="index.html" aria-label="Świetne Lokalizacje, strona główna">
+          <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+            <circle cx="16" cy="16" r="14.75" fill="none" stroke="currentColor" stroke-opacity="0.22" stroke-width="1.2" stroke-dasharray="1.5 2.5"/>
+            <circle cx="16" cy="16" r="9.75" fill="none" stroke="currentColor" stroke-opacity="0.45" stroke-width="1.2" stroke-dasharray="4 2.2"/>
+            <circle cx="16" cy="16" r="4.6" fill="#f2c94c" stroke="currentColor" stroke-width="1.3"/>
+          </svg>
+          <span class="brand__text">
+            <span class="brand__name">Świetne Lokalizacje</span>
+            <span class="brand__tag">Nieruchomości komercyjne</span>
+          </span>
+        </a>
+        <p>Wyszukiwanie, analiza i&nbsp;negocjacje nieruchomości komercyjnych dla firm i&nbsp;inwestorów.</p>
+      </div>
+      <nav aria-label="Stopka">
+        <h2>Strona</h2>
+        <ul>
+          <li><a href="oferty.html">Oferty</a></li>
+          <li><a href="index.html#uslugi">Usługi</a></li>
+          <li><a href="index.html#jak-pracujemy">Jak pracujemy</a></li>
+          <li><a href="index.html#dla-wlascicieli">Dla właścicieli</a></li>
+          <li><a href="index.html#o-nas">O nas</a></li>
+          <li><a href="index.html#kontakt">Kontakt</a></li>
+        </ul>
+      </nav>
+      <div>
+        <h2>Kontakt</h2>
+        <ul>
+          <li><a href="mailto:biuro@swietnelokalizacje.pl">biuro@swietnelokalizacje.pl</a></li>
+          <li><a href="tel:+48000000000">+48&nbsp;000&nbsp;000&nbsp;000</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© 2026 Świetne Lokalizacje</span>
+        <a href="#polityka-prywatnosci">Polityka prywatności</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

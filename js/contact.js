@@ -81,4 +81,13 @@
   });
 
   setMode('szukam');
+
+  // podpowiedź z adresu, np. index.html?cel=szukam&typ=biuro#kontakt (z listy ofert)
+  var qs = new URLSearchParams(window.location.search);
+  var cel = qs.get('cel'), typ = qs.get('typ');
+  if (cel && form.querySelector('input[name="cel"][value="' + cel + '"]')) {
+    form.querySelector('input[name="cel"][value="' + cel + '"]').checked = true;
+    setMode(cel);
+  }
+  if (typ && form.querySelector('#f-type option[value="' + typ + '"]')) form.querySelector('#f-type').value = typ;
 })();
