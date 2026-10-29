@@ -330,3 +330,20 @@ html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+
+/* --- Polityka prywatności ---------------------------------------------------- */
+.legal { max-width: 46rem; margin: 0 auto; padding: clamp(1.5rem, 1rem + 2vw, 2.75rem) 0 clamp(4rem, 2rem + 4vw, 6rem); }
+.legal .page-title { text-align: left; }
+.legal__note { margin-top: var(--space-5); padding: 0.85rem 1.1rem; border-left: 4px solid var(--signal); background: rgb(242 201 76 / 0.18); }
+.legal__date { margin-top: var(--space-4); font-size: var(--text-sm); color: var(--ink-64); }
+.legal h2 { margin-top: var(--space-7); padding-bottom: 0.5rem; border-bottom: 2px solid var(--ink); font-family: var(--font-display); font-size: 1.5rem; font-stretch: var(--stretch-label); font-weight: 780; }
+.legal p, .legal li { color: var(--ink-80); }
+.legal p { margin-top: var(--space-4); }
+.legal ul { margin-top: var(--space-4); padding-left: 1.2rem; list-style: square; }
+.legal li + li { margin-top: 0.45rem; }
+.legal a { font-weight: 600; text-decoration-color: var(--signal); text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+
+/* --- 404 ----------------------------------------------------------------------- */
+.missing-404 { max-width: 40rem; margin: 0 auto; padding: clamp(2.5rem, 1.5rem + 4vw, 5rem) 0 clamp(4rem, 2rem + 5vw, 7rem); text-align: center; }
+.missing-404__drawing { max-width: 26rem; margin: 0 auto var(--space-5); aspect-ratio: 16 / 10; }
+.missing-404 .invite-actions { justify-content: center; margin-top: var(--space-6); }

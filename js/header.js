@@ -31,6 +31,18 @@
     });
   }
 
+  var demo = document.querySelector('[data-demo-bar]');
+  if (demo) {
+    var closed = false;
+    try { closed = sessionStorage.getItem('sl-demo-closed') === '1'; } catch (e) {}
+    demo.hidden = closed;
+    var x = demo.querySelector('[data-demo-close]');
+    if (x) x.addEventListener('click', function () {
+      demo.hidden = true;
+      try { sessionStorage.setItem('sl-demo-closed', '1'); } catch (e) {}
+    });
+  }
+
   function onScroll() {
     header.classList.toggle('is-scrolled', window.scrollY > 4);
   }

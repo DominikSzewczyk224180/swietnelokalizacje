@@ -1,4 +1,4 @@
-# Świetne Lokalizacje: nowa strona (demo), etapy 1 do 3
+# Świetne Lokalizacje: nowa strona (demo)
 
 Strona główna biura nieruchomości komercyjnych Świetne Lokalizacje: hero (etap 1) i wszystkie sekcje
 strony głównej (etap 2). Czysty HTML, CSS i JavaScript, bez frameworka i bez kroku budowania.
@@ -91,6 +91,55 @@ pokażą zdjęcia zamiast rysunków.
 - `vendor/maplibre/`: MapLibre GL JS 5.24.0 (licencja BSD-3, plik `LICENSE.txt`).
 - Mapa: OpenFreeMap, © OpenMapTiles, dane © autorzy OpenStreetMap (podpis wyświetla się na mapie).
 
+
+## Składanie stron (nagłówek, stopka, metadane)
+
+Nagłówek i stopka są w `partials/`. Po każdej zmianie w nich uruchom:
+
+```
+python3 tools/build_pages.py
+```
+
+Skrypt wstawia je do wszystkich stron (na podstronach zamienia `#kotwice` na `index.html#kotwice`),
+generuje metadane (tytuł, opis, podgląd linku, favicona) oraz `sitemap.xml` i `robots.txt`.
+Na górze skryptu są dwa ustawienia:
+
+- `SITE_URL`: adres strony. Teraz `https://dominikszewczyk224180.github.io/SwietneLokalizacje/`.
+  Jeśli repozytorium nazywa się inaczej, popraw i uruchom skrypt, bo inaczej podgląd linku
+  (obrazek w WhatsAppie i Messengerze) się nie wczyta. Przy starcie: `https://www.swietnelokalizacje.pl/`.
+- `DEMO = True`: pasek „Wersja demonstracyjna” na górze stron i blokada indeksowania w Google
+  (fikcyjne oferty pod marką klienta nie powinny trafić do wyszukiwarki). Przy starcie `False`.
+
+## Strony
+
+- `index.html`: strona główna,
+- `oferty.html`: lista ofert,
+- `oferta.html?id=...`: karta oferty,
+- `polityka-prywatnosci.html`: wzór polityki prywatności (miejsca w nawiasach kwadratowych do
+  uzupełnienia; przed publikacją do sprawdzenia przez prawnika),
+- `404.html`: strona „Tu jeszcze nic nie stoi” (GitHub Pages pokazuje ją dla błędnych adresów).
+
+## Jakość (Lighthouse, telefon)
+
+| Strona | Wydajność | Dostępność | Dobre praktyki |
+|---|---|---|---|
+| Strona główna | 97 | 100 | 100 |
+| Oferty | 98 | 100 | 100 |
+| Karta oferty | 92 | 100 | 100 |
+| Polityka prywatności | 99 | 100 | 100 |
+
+SEO pokazuje teraz 66 tylko dlatego, że demo ma blokadę indeksowania; po `DEMO = False` jest 100.
+Testy automatyczne: 6 stron na szerokościach od 320 do 1920 px, bez błędów w konsoli, bez
+przewijania w bok, wszystkie linki i kotwice działają, jeden nagłówek H1 na stronę.
+
+## Przed startem (lista kontrolna)
+
+- [ ] logo klienta w nagłówku i stopce (`partials/`), telefon, adres i NIP (stopka, kontakt, polityka),
+- [ ] polityka prywatności uzupełniona i sprawdzona przez prawnika,
+- [ ] prawdziwe oferty i zdjęcia (docelowo z panelu),
+- [ ] `SITE_URL` na domenę klienta, `DEMO = False`, `python3 tools/build_pages.py`,
+- [ ] wysyłka formularzy i podgląd linku konkretnej oferty (skrypt na serwerze, etap z panelem).
+
 ## Co jest w paczce
 
 ```
@@ -112,7 +161,11 @@ js/offers-list.js       lista ofert: filtry, sortowanie, adres strony
 js/offer-detail.js      karta oferty: galeria, mapa, udostępnianie, zapytanie
 js/contact.js           formularz zapytania
 fonts/                  Archivo (zmienny: waga i szerokość), łacina z polskimi znakami, licencja OFL
+partials/               wspólny nagłówek (z paskiem demo) i stopka
+tools/build_pages.py    składa strony z partials/, metadane, sitemap.xml, robots.txt
 tools/build_drawing.py  generator rysunku w hero (wstawia SVG do index.html)
+img/                    obrazek podglądu linku (1200 × 630) i ikona na ekran telefonu
+favicon.svg             ikona w karcie przeglądarki
 tools/build_preview.py  składa każdą stronę w jeden plik podglądu (podglad*.html)
 vendor/maplibre/        biblioteka mapy
 ```
@@ -127,4 +180,3 @@ Na GitHub Pages: publiczne repozytorium, Settings, Pages, Deploy from a branch: 
 - Znak i nazwa w nagłówku i stopce: do podmiany na logo klienta.
 - Telefon +48 000 000 000 i dane firmy (adres, NIP): do uzupełnienia.
 - Oferty i ceny są przykładowe.
-- Link do polityki prywatności prowadzi do strony z kolejnego etapu.

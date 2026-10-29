@@ -102,7 +102,7 @@
 }
 .offer__specs div { padding: 0.65rem 0.9rem 0.75rem; }
 .offer__specs div + div { border-left: 1px solid var(--ink-16); }
-.offer__specs dt { font-size: 0.72rem; color: var(--ink-64); }
+.offer__specs dt { font-size: 0.75rem; color: var(--ink-64); }
 .offer__specs dd {
   margin: 0.15rem 0 0;
   font-family: var(--font-display);
@@ -116,7 +116,7 @@
   display: block;
   margin-top: 0.1rem;
   font-family: var(--font-sans);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-stretch: 100%;
   font-weight: 450;
   color: var(--ink-64);
@@ -634,4 +634,12 @@
 }
 
 .offers-all { margin-top: var(--space-6); text-align: center; }
+
+/* miejsce zarezerwowane, zanim skrypt wstawi oferty */
+.offers-tabs:empty { min-height: 2.65rem; }
+.results-count:empty::before { content: "\00a0"; }
+[data-results]:empty, [data-offers-grid]:empty { min-height: 110vh; }
+/* karta oferty pokazuje się dopiero wypełniona; bez skryptu i tak po 3 s */
+.js [data-o-body]:not(.is-ready) { visibility: hidden; animation: show-anyway 0s 3s forwards; }
+@keyframes show-anyway { to { visibility: visible; } }
 .offers-all + .offers-more { margin-top: var(--space-4); }

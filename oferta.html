@@ -3,10 +3,27 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- meta:start -->
   <title>Oferta | Świetne Lokalizacje</title>
   <meta name="description" content="Oferta nieruchomości komercyjnej: parametry, opis, lokalizacja i kontakt z biurem.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://dominikszewczyk224180.github.io/SwietneLokalizacje/oferta.html">
   <meta name="theme-color" content="#e6e7e3">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:site_name" content="Świetne Lokalizacje">
+  <meta property="og:title" content="Oferta">
+  <meta property="og:description" content="Oferta nieruchomości komercyjnej: parametry, opis, lokalizacja i kontakt z biurem.">
+  <meta property="og:url" content="https://dominikszewczyk224180.github.io/SwietneLokalizacje/oferta.html">
+  <meta property="og:image" content="https://dominikszewczyk224180.github.io/SwietneLokalizacje/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
   <link rel="preload" href="fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <script>document.documentElement.classList.add('js');</script>
+<!-- meta:end -->
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/header.css">
@@ -19,6 +36,13 @@
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><pattern id="hatch-sm" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" style="stroke:#1f2429;stroke-opacity:.32;stroke-width:.7"/></pattern></defs></svg>
+  <!-- include:header -->
+  <!-- demo-bar:start -->
+  <div class="demo-bar" data-demo-bar>
+    <p><strong>Wersja demonstracyjna.</strong> Oferty, ceny, telefon i&nbsp;logo są przykładowe, a&nbsp;formularze jeszcze nie wysyłają wiadomości.</p>
+    <button type="button" data-demo-close aria-label="Zamknij informację o wersji demonstracyjnej">×</button>
+  </div>
+  <!-- demo-bar:end -->
   <a class="skip-link" href="#main">Przejdź do treści</a>
 
   <header class="site-header" data-header>
@@ -79,6 +103,7 @@
       </div>
     </div>
   </header>
+<!-- /include:header -->
 
   <main id="main" class="offer-page" data-offer-page>
     <div class="container">
@@ -195,7 +220,7 @@
             <label class="lbl" for="a-msg">Wiadomość</label>
             <textarea id="a-msg"></textarea>
           </div>
-          <label class="consent"><input type="checkbox" id="a-consent" aria-describedby="ae-consent"><span>Zgadzam się na przetwarzanie moich danych w&nbsp;celu odpowiedzi na zapytanie. Szczegóły w&nbsp;<a href="#polityka-prywatnosci">polityce prywatności</a>.</span></label>
+          <label class="consent"><input type="checkbox" id="a-consent" aria-describedby="ae-consent"><span>Zgadzam się na przetwarzanie moich danych w&nbsp;celu odpowiedzi na zapytanie. Szczegóły w&nbsp;<a href="polityka-prywatnosci.html">polityce prywatności</a>.</span></label>
           <p class="field-error" id="ae-consent" data-error-for="a-consent"></p>
           <button class="btn btn--primary brief__submit" type="submit">Wyślij zapytanie</button>
           <p class="brief__status" data-ask-status role="status" aria-live="polite"></p>
@@ -217,6 +242,7 @@
     </div>
   </main>
 
+  <!-- include:footer -->
   <footer class="site-footer">
     <div class="container footer-grid">
       <div class="footer-about">
@@ -236,7 +262,7 @@
       <nav aria-label="Stopka">
         <h2>Strona</h2>
         <ul>
-          <li><a href="oferty.html">Oferty</a></li>
+          <li><a href="oferty.html" aria-current="page">Oferty</a></li>
           <li><a href="index.html#uslugi">Usługi</a></li>
           <li><a href="index.html#jak-pracujemy">Jak pracujemy</a></li>
           <li><a href="index.html#dla-wlascicieli">Dla właścicieli</a></li>
@@ -255,10 +281,11 @@
     <div class="container">
       <div class="footer-bottom">
         <span>© 2026 Świetne Lokalizacje</span>
-        <a href="#polityka-prywatnosci">Polityka prywatności</a>
+        <a href="polityka-prywatnosci.html">Polityka prywatności</a>
       </div>
     </div>
   </footer>
+<!-- /include:footer -->
   <dialog class="lightbox" data-lightbox aria-label="Galeria na pełnym ekranie">
     <div class="lightbox__stage" data-lb-stage></div>
     <span class="lightbox__count" data-lb-count></span>

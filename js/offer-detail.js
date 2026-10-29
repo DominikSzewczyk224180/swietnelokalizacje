@@ -26,6 +26,11 @@
   var where = C.place(o);
   var deal = C.DEALS[o.deal];
   var cleanUrl = window.location.href.split('#')[0];
+  // adres kanoniczny i podgląd linku z identyfikatorem tej oferty
+  var canon = document.querySelector('link[rel="canonical"]');
+  if (canon) canon.href = canon.href.split('?')[0] + '?id=' + encodeURIComponent(o.id);
+  var ogUrl = document.querySelector('meta[property="og:url"]');
+  if (ogUrl && canon) ogUrl.content = canon.href;
 
   /* ------------------------------------------------ nagłówek i powiadomienia */
   document.title = o.title + ' | ' + where + ' | ' + A.name;
@@ -287,6 +292,7 @@
     floorSize: { '@type': 'QuantitativeValue', value: o.areaValue, unitCode: 'MTK' }
   });
   document.head.appendChild(ld);
+  $('[data-o-body]').classList.add('is-ready');
 
   /* ------------------------------------------------ pomocnicze */
   function setMeta(name, content) {
@@ -321,6 +327,8 @@
     return { type: 'Feature', geometry: { type: 'Polygon', coordinates: [pts] }, properties: {} };
   }
   function notFound() {
+    var ob = $('[data-o-body]');
+    if (ob) ob.classList.add('is-ready');
     document.title = 'Oferta niedostępna | ' + A.name;
     setMeta('robots', 'noindex');
     var body = $('[data-o-body]');

@@ -15,11 +15,6 @@
   max-width: 64rem;
   margin: 0 auto;
   padding: 0 var(--gutter);
-  animation: hero-in 0.9s 0.1s var(--ease-out) both;
-}
-@keyframes hero-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: none; }
 }
 
 .hero__title {
@@ -139,11 +134,12 @@
   animation-duration: 1.3s;
   animation-delay: 0.25s;
 }
-.drawing .d {
-  opacity: 0;
-  animation: drawing-appear 0.7s ease forwards;
-  animation-delay: calc(1.15s + var(--i, 0) * 0.2s);
-}
+/* detale (okna, przeszklenia, okładziny) pojawiają się całym budynkiem naraz:
+   jedna animacja zmiennej na grupę zamiast kilkuset animacji pojedynczych linii */
+@property --d { syntax: "<number>"; inherits: true; initial-value: 0; }
+.drawing .m, .drawing .ground { animation: drawing-details 0.45s steps(3, end) forwards; animation-delay: calc(1.15s + var(--i, 0) * 0.2s); }
+.drawing .d { opacity: var(--d); }
+@keyframes drawing-details { from { --d: 0; } to { --d: 1; } }
 .drawing .c {
   opacity: 0;
   animation: drawing-appear 0.6s ease forwards;
@@ -253,12 +249,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__text { animation: none; }
   .drawing .o,
-  .drawing .d,
-  .drawing .c {
+  .drawing .c,
+  .drawing .m,
+  .drawing .ground {
     animation: none;
     stroke-dashoffset: 0;
     opacity: 1;
+    --d: 1;
   }
 }

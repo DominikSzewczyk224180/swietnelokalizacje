@@ -3,14 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- meta:start -->
   <title>Świetne Lokalizacje | Nieruchomości komercyjne | Kraków</title>
   <meta name="description" content="Wyszukujemy, analizujemy i negocjujemy nieruchomości komercyjne dla firm i inwestorów: lokale, biura, magazyny i grunty.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://dominikszewczyk224180.github.io/SwietneLokalizacje/">
   <meta name="theme-color" content="#e6e7e3">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pl_PL">
-  <meta property="og:title" content="Świetne Lokalizacje: nieruchomości komercyjne w Krakowie">
-  <meta property="og:description" content="Dobra lokalizacja nie jest przypadkiem. Wyszukujemy, analizujemy i negocjujemy nieruchomości dla firm i inwestorów.">
+  <meta property="og:site_name" content="Świetne Lokalizacje">
+  <meta property="og:title" content="Świetne Lokalizacje">
+  <meta property="og:description" content="Wyszukujemy, analizujemy i negocjujemy nieruchomości komercyjne dla firm i inwestorów: lokale, biura, magazyny i grunty.">
+  <meta property="og:url" content="https://dominikszewczyk224180.github.io/SwietneLokalizacje/">
+  <meta property="og:image" content="https://dominikszewczyk224180.github.io/SwietneLokalizacje/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
   <link rel="preload" href="fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <script>document.documentElement.classList.add('js');</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "RealEstateAgent", "name": "Świetne Lokalizacje", "description": "Wyszukujemy, analizujemy i negocjujemy nieruchomości komercyjne dla firm i inwestorów: lokale, biura, magazyny i grunty.", "url": "https://dominikszewczyk224180.github.io/SwietneLokalizacje/", "email": "biuro@swietnelokalizacje.pl", "image": "https://dominikszewczyk224180.github.io/SwietneLokalizacje/img/og-image.png", "memberOf": {"@type": "Organization", "name": "Małopolskie Stowarzyszenie Pośredników w Obrocie Nieruchomościami"}, "knowsAbout": ["nieruchomości komercyjne", "doradztwo lokalizacyjne", "lokale usługowe", "biura", "magazyny", "grunty inwestycyjne"]}</script>
+<!-- meta:end -->
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/header.css">
@@ -26,6 +40,13 @@
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><pattern id="hatch-sm" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" style="stroke:#1f2429;stroke-opacity:.32;stroke-width:.7"/></pattern></defs></svg>
+  <!-- include:header -->
+  <!-- demo-bar:start -->
+  <div class="demo-bar" data-demo-bar>
+    <p><strong>Wersja demonstracyjna.</strong> Oferty, ceny, telefon i&nbsp;logo są przykładowe, a&nbsp;formularze jeszcze nie wysyłają wiadomości.</p>
+    <button type="button" data-demo-close aria-label="Zamknij informację o wersji demonstracyjnej">×</button>
+  </div>
+  <!-- demo-bar:end -->
   <a class="skip-link" href="#main">Przejdź do treści</a>
 
   <header class="site-header" data-header>
@@ -86,6 +107,7 @@
       </div>
     </div>
   </header>
+<!-- /include:header -->
 
   <main id="main">
     <section class="hero" aria-labelledby="hero-title" data-hero>
@@ -311,7 +333,7 @@
             <label class="lbl" for="f-msg">Wiadomość <span class="opt">(opcjonalnie)</span></label>
             <textarea id="f-msg" name="wiadomosc" placeholder="Kilka słów o działalności, terminie albo nieruchomości"></textarea>
           </div>
-          <label class="consent"><input type="checkbox" id="f-consent" name="zgoda" aria-describedby="e-consent"><span>Zgadzam się na przetwarzanie moich danych w&nbsp;celu odpowiedzi na zapytanie. Szczegóły w&nbsp;<a href="#polityka-prywatnosci">polityce prywatności</a>.</span></label>
+          <label class="consent"><input type="checkbox" id="f-consent" name="zgoda" aria-describedby="e-consent"><span>Zgadzam się na przetwarzanie moich danych w&nbsp;celu odpowiedzi na zapytanie. Szczegóły w&nbsp;<a href="polityka-prywatnosci.html">polityce prywatności</a>.</span></label>
           <p class="field-error" id="e-consent" data-error-for="f-consent"></p>
           <button class="btn btn--primary brief__submit" type="submit">Wyślij zapytanie</button>
           <p class="brief__status" data-brief-status role="status" aria-live="polite"></p>
@@ -320,6 +342,7 @@
     </section>
   </main>
 
+  <!-- include:footer -->
   <footer class="site-footer">
     <div class="container footer-grid">
       <div class="footer-about">
@@ -358,9 +381,10 @@
     <div class="container">
       <div class="footer-bottom">
         <span>© 2026 Świetne Lokalizacje</span>
-        <a href="#polityka-prywatnosci">Polityka prywatności</a>
+        <a href="polityka-prywatnosci.html">Polityka prywatności</a>
       </div>
     </div>
   </footer>
+<!-- /include:footer -->
 </body>
 </html>
